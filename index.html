@@ -90,10 +90,7 @@
   }
   .stat-card .sub { font-size: 0.72em; color: #aaa; margin-top: 3px; }
 
-  .chart-container {
-    padding: 20px 16px;
-    margin: 16px 0;
-  }
+  .chart-container { padding: 20px 16px; margin: 16px 0; }
 
   .section-title {
     font-size: 1.05em;
@@ -104,46 +101,24 @@
   }
 
   .weekly { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 10px 0; }
-  .week-card {
-    padding: 14px;
-    text-align: center;
-    transition: transform 0.2s ease;
-  }
+  .week-card { padding: 14px; text-align: center; transition: transform 0.2s ease; }
   .week-card:hover { transform: translateY(-2px); }
   .week-card .wk { font-size: 0.78em; color: #888; }
   .week-card .wv {
-    font-size: 1.3em;
-    font-weight: 800;
+    font-size: 1.3em; font-weight: 800;
     background: linear-gradient(135deg, #3d8b5e, #5ab77e);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     margin: 4px 0;
   }
 
-  .table-wrap {
-    padding: 0;
-    overflow: hidden;
-    margin: 0 0 20px;
-  }
+  .table-wrap { padding: 0; overflow: hidden; margin: 0 0 20px; }
   table { width: 100%; border-collapse: collapse; }
   th {
     background: linear-gradient(135deg, rgba(74, 124, 89, 0.85), rgba(93, 156, 112, 0.85));
     backdrop-filter: blur(10px);
-    color: #fff;
-    padding: 12px 8px;
-    font-size: 0.82em;
-    text-align: center;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    color: #fff; padding: 12px 8px; font-size: 0.82em; text-align: center; font-weight: 600; letter-spacing: 0.5px;
   }
-  td {
-    padding: 10px 8px;
-    text-align: center;
-    font-size: 0.84em;
-    border-bottom: 1px solid rgba(0,0,0,0.04);
-    background: transparent;
-  }
+  td { padding: 10px 8px; text-align: center; font-size: 0.84em; border-bottom: 1px solid rgba(0,0,0,0.04); background: transparent; }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: rgba(74, 124, 89, 0.04); }
 
@@ -154,38 +129,56 @@
   .exercise-tag {
     display: inline-block;
     background: linear-gradient(135deg, rgba(74,124,89,0.12), rgba(107,179,134,0.15));
-    color: #3d7a52;
-    padding: 3px 8px;
-    border-radius: 8px;
-    font-size: 0.75em;
-    font-weight: 500;
+    color: #3d7a52; padding: 3px 8px; border-radius: 8px; font-size: 0.75em; font-weight: 500;
     border: 1px solid rgba(74,124,89,0.1);
   }
 
-  .footer {
-    text-align: center;
-    color: #bbb;
-    font-size: 0.72em;
-    margin: 24px 0;
-    letter-spacing: 0.5px;
-  }
+  .footer { text-align: center; color: #bbb; font-size: 0.72em; margin: 24px 0; letter-spacing: 0.5px; }
 
-  /* Progress bar */
   .progress-wrap { margin: 16px 0; padding: 16px 20px; }
   .progress-label { display: flex; justify-content: space-between; font-size: 0.8em; color: #888; margin-bottom: 8px; }
-  .progress-bar {
-    height: 10px;
-    border-radius: 10px;
-    background: rgba(0,0,0,0.06);
-    overflow: hidden;
-  }
+  .progress-bar { height: 10px; border-radius: 10px; background: rgba(0,0,0,0.06); overflow: hidden; }
   .progress-fill {
-    height: 100%;
-    border-radius: 10px;
+    height: 100%; border-radius: 10px;
     background: linear-gradient(90deg, #6bb386, #4a7c59, #3d8b5e);
-    transition: width 1s ease;
-    box-shadow: 0 2px 8px rgba(74,124,89,0.3);
+    transition: width 1s ease; box-shadow: 0 2px 8px rgba(74,124,89,0.3);
   }
+
+  /* Tabs */
+  .tabs { display: flex; border-radius: 16px 16px 0 0; overflow: hidden; margin-top: 24px; margin-bottom: 0; }
+  .tab { flex: 1; text-align: center; padding: 14px; font-size: 0.9em; font-weight: 600; color: #4a7c59; cursor: pointer; transition: all 0.2s; background: rgba(255,255,255,0.3); }
+  .tab.active { background: rgba(255,255,255,0.6); color: #3d8b5e; border-bottom: 2px solid #4a7c59; }
+  .tab:not(.active):hover { background: rgba(255,255,255,0.45); }
+  .tab-content { margin-bottom: 20px; }
+
+  /* Carousel */
+  .carousel-wrap { position: relative; overflow: hidden; margin: 10px 0; }
+  .carousel-track { display: flex; transition: transform 0.35s ease; touch-action: pan-y; }
+  .carousel-card { min-width: 100%; box-sizing: border-box; padding: 16px; }
+  .carousel-card .cc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .carousel-card .cc-meal { font-size: 1em; font-weight: 700; color: #4a7c59; }
+  .carousel-card .cc-cal { font-size: 0.9em; font-weight: 600; color: #3d8b5e; }
+  .carousel-card .cc-items { margin-bottom: 10px; }
+  .carousel-card .cc-item { display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.85em; color: #2d3436; border-bottom: 1px solid rgba(74,124,89,0.06); }
+  .carousel-card .cc-item:last-child { border-bottom: none; }
+  .carousel-card .cc-macros { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .carousel-card .cc-macros span { background: rgba(74,124,89,0.08); padding: 3px 10px; border-radius: 8px; font-size: 0.78em; color: #4a7c59; font-weight: 500; }
+  .carousel-dots { display: flex; justify-content: center; gap: 8px; padding: 12px 0; }
+  .carousel-dots .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(74,124,89,0.2); cursor: pointer; transition: all 0.2s; }
+  .carousel-dots .dot.active { background: #4a7c59; transform: scale(1.3); }
+  .carousel-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; border-radius: 50%; background: rgba(74,124,89,0.15); border: none; color: #4a7c59; font-size: 1.1em; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; z-index: 2; }
+  .carousel-nav:hover { background: rgba(74,124,89,0.3); }
+  .carousel-nav.prev { left: 6px; }
+  .carousel-nav.next { right: 6px; }
+  .no-meals { text-align: center; padding: 30px; color: #888; font-size: 0.9em; }
+
+  /* Diet history */
+  .diet-day { margin: 8px 0; padding: 0; overflow: hidden; }
+  .diet-day-header { font-size: 0.9em; font-weight: 600; color: #4a7c59; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+  .diet-day-header .day-cal { font-size: 0.85em; color: #3d8b5e; font-weight: 600; }
+  .diet-day-header .toggle-icon { font-size: 0.8em; color: #4a7c59; transition: transform 0.2s; }
+  .diet-day-header .toggle-icon.open { transform: rotate(90deg); }
+  .diet-day-body { display: none; padding: 0 16px 16px; }
 </style>
 </head>
 <body>
@@ -193,72 +186,76 @@
 <h1>🌿 小涵的减重记录</h1>
 
 <div class="stats">
-  <div class="stat-card glass">
-    <div class="label">起始体重</div>
-    <div class="value" id="startW">--</div>
-    <div class="sub" id="startDate"></div>
-  </div>
-  <div class="stat-card glass">
-    <div class="label">今日体重</div>
-    <div class="value" id="currentW">--</div>
-    <div class="sub" id="currentDate"></div>
-  </div>
-  <div class="stat-card glass">
-    <div class="label">已减</div>
-    <div class="value" id="totalLoss">--</div>
-    <div class="sub" id="totalDays"></div>
-  </div>
+  <div class="stat-card glass"><div class="label">起始体重</div><div class="value" id="startW">--</div><div class="sub" id="startDate"></div></div>
+  <div class="stat-card glass"><div class="label">今日体重</div><div class="value" id="currentW">--</div><div class="sub" id="currentDate"></div></div>
+  <div class="stat-card glass"><div class="label">已减</div><div class="value" id="totalLoss">--</div><div class="sub" id="totalDays"></div></div>
 </div>
-
 <div class="stats">
-  <div class="stat-card glass">
-    <div class="label">目标</div>
-    <div class="value accent" id="goalW">62.0</div>
-    <div class="sub">4月25日前</div>
-  </div>
-  <div class="stat-card glass">
-    <div class="label">距目标</div>
-    <div class="value accent" id="toGoal">--</div>
-    <div class="sub">还差</div>
-  </div>
-  <div class="stat-card glass">
-    <div class="label">周均减重</div>
-    <div class="value" id="weeklyAvg">--</div>
-    <div class="sub">kg/周</div>
-  </div>
+  <div class="stat-card glass"><div class="label">目标</div><div class="value accent" id="goalW">62.0</div><div class="sub">4月25日前</div></div>
+  <div class="stat-card glass"><div class="label">距目标</div><div class="value accent" id="toGoal">--</div><div class="sub">还差</div></div>
+  <div class="stat-card glass"><div class="label">周均减重</div><div class="value" id="weeklyAvg">--</div><div class="sub">kg/周</div></div>
 </div>
 
 <div class="progress-wrap glass">
-  <div class="progress-label">
-    <span id="pStart">70.0</span>
-    <span id="pPercent">0%</span>
-    <span id="pGoal">62.0</span>
-  </div>
-  <div class="progress-bar">
-    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-  </div>
+  <div class="progress-label"><span id="pStart">70.0</span><span id="pPercent">0%</span><span id="pGoal">62.0</span></div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 0%"></div></div>
 </div>
 
 <div class="chart-container glass-strong">
   <canvas id="weightChart" height="200"></canvas>
 </div>
 
+<div class="section-title">🍽️ 今日饮食</div>
+<div class="today-summary glass-strong" id="todaySummary" style="display:none; padding:16px; margin:10px 0;">
+  <div class="stats" style="margin:0;">
+    <div class="stat-card" style="padding:10px;"><div class="label">总热量</div><div class="value" id="todayCal">--</div><div class="sub"><span id="todayCalTarget"></span></div></div>
+    <div class="stat-card" style="padding:10px;"><div class="label">蛋白质</div><div class="value" id="todayP">--</div><div class="sub"><span id="todayPTarget"></span></div></div>
+    <div class="stat-card" style="padding:10px;"><div class="label">碳水</div><div class="value" id="todayC">--</div><div class="sub"><span id="todayCTarget"></span></div></div>
+  </div>
+  <div class="stats" style="margin:8px 0 0;">
+    <div class="stat-card" style="padding:10px;"><div class="label">脂肪</div><div class="value" id="todayF">--</div><div class="sub"><span id="todayFTarget"></span></div></div>
+    <div class="stat-card" style="padding:10px;"><div class="label">纤维</div><div class="value" id="todayFiber">--</div><div class="sub">g</div></div>
+    <div class="stat-card" style="padding:10px;"><div class="label">餐次</div><div class="value" id="todayCount">--</div><div class="sub">次</div></div>
+  </div>
+</div>
+<div class="carousel-wrap" id="todayCarousel">
+  <div class="carousel-track" id="todayTrack"></div>
+  <div class="carousel-dots" id="todayDots"></div>
+</div>
+
 <div class="section-title">📊 每周汇总</div>
 <div class="weekly" id="weeklyCards"></div>
 
-<div class="section-title">📋 每日明细</div>
-<div class="table-wrap glass-strong">
+<div class="tabs glass-strong">
+  <div class="tab active" data-tab="weight">📋 每日明细</div>
+  <div class="tab" data-tab="diet">🍽️ 每日饮食</div>
+</div>
+
+<div class="tab-content" id="tab-weight">
+<div class="table-wrap glass-strong" style="margin-top:0; border-top-left-radius:0; border-top-right-radius:0;">
 <table>
-  <thead>
-    <tr><th>日期</th><th>星期</th><th>体重</th><th>变化</th><th>运动</th><th>备注</th></tr>
-  </thead>
+  <thead><tr><th>日期</th><th>星期</th><th>体重</th><th>变化</th><th>运动</th><th>备注</th></tr></thead>
   <tbody id="tableBody"></tbody>
 </table>
+</div>
+</div>
+
+<div class="tab-content" id="tab-diet" style="display:none;">
+<div id="dietHistory"></div>
 </div>
 
 <div class="footer">姆姆医生 💚 为小涵定制</div>
 
 <script>
+// ===== 数据区 =====
+const DAILY_TARGET = { cal: 1300, protein: 70, carbs: 125, fat: 45 };
+function f(n) { return Number(n).toFixed(1); }
+
+// 饮食记录 - 每次小涵报告吃了什么就在这里添加
+const MEALS = [
+  // { date: '2026-04-08', meal: '午餐 12:30', items: '示例食物', cal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0 },
+];
+
 const DATA = [
   { date: '2026-03-12', weight: 70.0, exercise: '游泳 1000m', note: '起始' },
   { date: '2026-03-13', weight: null, exercise: '步行 18000步', note: '体检日' },
@@ -292,6 +289,7 @@ const DATA = [
 
 const GOAL = 62.0;
 
+// ===== 渲染逻辑 =====
 const DAYS = ['日','一','二','三','四','五','六'];
 function dayOfWeek(d) { return DAYS[new Date(d).getDay()]; }
 function fmt(d) { return d.slice(5).replace('-','/'); }
@@ -313,10 +311,8 @@ document.getElementById('totalDays').textContent = days + '天';
 document.getElementById('toGoal').textContent = (last.weight - GOAL).toFixed(1) + 'kg';
 document.getElementById('weeklyAvg').textContent = (loss / weeks).toFixed(2);
 
-// Progress bar
 const totalToLose = first.weight - GOAL;
-const lost = first.weight - last.weight;
-const pct = Math.min(100, (lost / totalToLose * 100)).toFixed(0);
+const pct = Math.min(100, (loss / totalToLose * 100)).toFixed(0);
 document.getElementById('pStart').textContent = first.weight.toFixed(1);
 document.getElementById('pGoal').textContent = GOAL.toFixed(1);
 document.getElementById('pPercent').textContent = pct + '%';
@@ -325,7 +321,6 @@ setTimeout(() => { document.getElementById('progressFill').style.width = pct + '
 // Chart
 const chartLabels = withWeight.map(d => fmt(d.date));
 const chartData = withWeight.map(d => d.weight);
-
 const gradient = document.getElementById('weightChart').getContext('2d');
 const gFill = gradient.createLinearGradient(0, 0, 0, 300);
 gFill.addColorStop(0, 'rgba(74, 124, 89, 0.25)');
@@ -337,13 +332,8 @@ new Chart(document.getElementById('weightChart'), {
     labels: chartLabels,
     datasets: [
       {
-        label: '体重 (kg)',
-        data: chartData,
-        borderColor: '#4a7c59',
-        backgroundColor: gFill,
-        fill: true,
-        tension: 0.4,
-        borderWidth: 2.5,
+        label: '体重 (kg)', data: chartData,
+        borderColor: '#4a7c59', backgroundColor: gFill, fill: true, tension: 0.4, borderWidth: 2.5,
         pointBackgroundColor: withWeight.map(d => d.note && d.note.includes('💉') ? '#e74c3c' : '#fff'),
         pointBorderColor: withWeight.map(d => d.note && d.note.includes('💉') ? '#e74c3c' : '#4a7c59'),
         pointBorderWidth: 2,
@@ -353,11 +343,7 @@ new Chart(document.getElementById('weightChart'), {
       {
         label: '目标 ' + GOAL + 'kg',
         data: Array(chartLabels.length).fill(GOAL),
-        borderColor: 'rgba(231, 76, 60, 0.4)',
-        borderDash: [6, 4],
-        borderWidth: 1.5,
-        pointRadius: 0,
-        fill: false,
+        borderColor: 'rgba(231, 76, 60, 0.4)', borderDash: [6, 4], borderWidth: 1.5, pointRadius: 0, fill: false,
       }
     ]
   },
@@ -366,13 +352,8 @@ new Chart(document.getElementById('weightChart'), {
     plugins: {
       legend: { display: true, position: 'top', labels: { font: { size: 11 }, usePointStyle: true, padding: 16 } },
       tooltip: {
-        backgroundColor: 'rgba(255,255,255,0.9)',
-        titleColor: '#333',
-        bodyColor: '#555',
-        borderColor: 'rgba(0,0,0,0.1)',
-        borderWidth: 1,
-        cornerRadius: 10,
-        padding: 12,
+        backgroundColor: 'rgba(255,255,255,0.9)', titleColor: '#333', bodyColor: '#555',
+        borderColor: 'rgba(0,0,0,0.1)', borderWidth: 1, cornerRadius: 10, padding: 12,
         callbacks: {
           afterLabel: function(ctx) {
             if (ctx.datasetIndex === 0) {
@@ -387,43 +368,23 @@ new Chart(document.getElementById('weightChart'), {
       }
     },
     scales: {
-      y: {
-        min: Math.floor(GOAL - 1),
-        max: Math.ceil(first.weight + 0.5),
-        ticks: { callback: v => v + 'kg', font: { size: 11 } },
-        grid: { color: 'rgba(0,0,0,0.04)' }
-      },
-      x: {
-        ticks: { font: { size: 10 }, maxRotation: 45 },
-        grid: { display: false }
-      }
+      y: { min: Math.floor(GOAL - 1), max: Math.ceil(first.weight + 0.5), ticks: { callback: v => v + 'kg', font: { size: 11 } }, grid: { color: 'rgba(0,0,0,0.04)' } },
+      x: { ticks: { font: { size: 10 }, maxRotation: 45 }, grid: { display: false } }
     }
   }
 });
 
 // Weekly cards
-function getWeekNum(dateStr) {
-  return Math.floor(diffDays(DATA[0].date, dateStr) / 7);
-}
+function getWeekNum(dateStr) { return Math.floor(diffDays(DATA[0].date, dateStr) / 7); }
 const weekMap = {};
-withWeight.forEach(d => {
-  const wk = getWeekNum(d.date);
-  if (!weekMap[wk]) weekMap[wk] = [];
-  weekMap[wk].push(d);
-});
+withWeight.forEach(d => { const wk = getWeekNum(d.date); if (!weekMap[wk]) weekMap[wk] = []; weekMap[wk].push(d); });
 const weeklyEl = document.getElementById('weeklyCards');
 Object.keys(weekMap).sort((a,b) => a-b).forEach(wk => {
   const entries = weekMap[wk];
-  const wStart = entries[0].weight;
-  const wEnd = entries[entries.length-1].weight;
-  const wLoss = wStart - wEnd;
+  const wStart = entries[0].weight, wEnd = entries[entries.length-1].weight, wLoss = wStart - wEnd;
   const card = document.createElement('div');
   card.className = 'week-card glass';
-  card.innerHTML = `
-    <div class="wk">第${parseInt(wk)+1}周</div>
-    <div class="wv">${wLoss >= 0 ? '-' : '+'}${Math.abs(wLoss).toFixed(1)}kg</div>
-    <div class="wk">${wStart.toFixed(1)} → ${wEnd.toFixed(1)}</div>
-  `;
+  card.innerHTML = `<div class="wk">第${parseInt(wk)+1}周</div><div class="wv">${wLoss >= 0 ? '-' : '+'}${Math.abs(wLoss).toFixed(1)}kg</div><div class="wk">${wStart.toFixed(1)} → ${wEnd.toFixed(1)}</div>`;
   weeklyEl.appendChild(card);
 });
 
@@ -433,7 +394,6 @@ let prevWeight = null;
 DATA.forEach(d => {
   const tr = document.createElement('tr');
   if (d.note && d.note.includes('💉')) tr.className = 'injection';
-
   let changeHtml = '<span class="weight-same">-</span>';
   if (d.weight !== null) {
     if (prevWeight !== null) {
@@ -444,19 +404,143 @@ DATA.forEach(d => {
     }
     prevWeight = d.weight;
   }
-
   const exerciseHtml = d.exercise ? `<span class="exercise-tag">${d.exercise}</span>` : '';
-
-  tr.innerHTML = `
-    <td>${fmt(d.date)}</td>
-    <td>${dayOfWeek(d.date)}</td>
-    <td style="font-weight:600">${d.weight !== null ? d.weight.toFixed(1) : '-'}</td>
-    <td>${changeHtml}</td>
-    <td>${exerciseHtml}</td>
-    <td>${d.note || ''}</td>
-  `;
+  tr.innerHTML = `<td>${fmt(d.date)}</td><td>${dayOfWeek(d.date)}</td><td style="font-weight:600">${d.weight !== null ? d.weight.toFixed(1) : '-'}</td><td>${changeHtml}</td><td>${exerciseHtml}</td><td>${d.note || ''}</td>`;
   tbody.appendChild(tr);
 });
+
+// ===== 饮食模块 =====
+function groupMeals(meals) {
+  const map = {};
+  meals.forEach(m => {
+    const key = m.meal;
+    if (!map[key]) map[key] = { meal: m.meal, items: [], cal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0 };
+    map[key].items.push({ name: m.items, cal: m.cal });
+    map[key].cal += m.cal || 0;
+    map[key].protein += m.protein || 0;
+    map[key].carbs += m.carbs || 0;
+    map[key].fat += m.fat || 0;
+    map[key].fiber += m.fiber || 0;
+  });
+  return Object.values(map);
+}
+
+function buildCarousel(wrapEl, trackEl, dotsEl, grouped) {
+  let idx = 0;
+  grouped.forEach(g => {
+    const card = document.createElement('div');
+    card.className = 'carousel-card glass';
+    const itemsHtml = g.items.map(i => `<div class="cc-item"><span>${i.name}</span><span>${f(i.cal)} kcal</span></div>`).join('');
+    card.innerHTML = `
+      <div class="cc-header"><span class="cc-meal">${g.meal}</span><span class="cc-cal">${f(g.cal)} kcal</span></div>
+      <div class="cc-items">${itemsHtml}</div>
+      <div class="cc-macros">
+        <span>蛋白质 ${f(g.protein)}g</span><span>碳水 ${f(g.carbs)}g</span><span>脂肪 ${f(g.fat)}g</span>
+        ${g.fiber ? `<span>纤维 ${f(g.fiber)}g</span>` : ''}
+      </div>`;
+    trackEl.appendChild(card);
+  });
+  grouped.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goTo(i);
+    dotsEl.appendChild(dot);
+  });
+  if (grouped.length > 1) {
+    const prev = document.createElement('button'); prev.className = 'carousel-nav prev'; prev.innerHTML = '‹'; prev.onclick = () => goTo(Math.max(0, idx - 1));
+    const next = document.createElement('button'); next.className = 'carousel-nav next'; next.innerHTML = '›'; next.onclick = () => goTo(Math.min(grouped.length - 1, idx + 1));
+    wrapEl.appendChild(prev); wrapEl.appendChild(next);
+  }
+  function goTo(i) {
+    idx = i;
+    trackEl.style.transform = `translateX(-${i * 100}%)`;
+    dotsEl.querySelectorAll('.dot').forEach((d, j) => d.classList.toggle('active', j === i));
+  }
+  let startX = 0;
+  trackEl.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+  trackEl.addEventListener('touchend', e => {
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) goTo(Math.max(0, Math.min(grouped.length - 1, idx + (diff > 0 ? 1 : -1))));
+  });
+}
+
+// Today's meals
+const today = new Date().toISOString().slice(0, 10);
+const todayMeals = MEALS.filter(m => m.date === today);
+const todayTrack = document.getElementById('todayTrack');
+const todayDots = document.getElementById('todayDots');
+const todayCarousel = document.getElementById('todayCarousel');
+
+if (todayMeals.length === 0) {
+  todayCarousel.innerHTML = '<div class="no-meals glass">今天还没有饮食记录 🍽️</div>';
+} else {
+  const grouped = groupMeals(todayMeals);
+  buildCarousel(todayCarousel, todayTrack, todayDots, grouped);
+  document.getElementById('todaySummary').style.display = 'block';
+  let tCal = 0, tP = 0, tC = 0, tF = 0, tFiber = 0;
+  todayMeals.forEach(m => { tCal += m.cal||0; tP += m.protein||0; tC += m.carbs||0; tF += m.fat||0; tFiber += m.fiber||0; });
+  document.getElementById('todayCal').textContent = f(tCal);
+  document.getElementById('todayCalTarget').textContent = `/ ${DAILY_TARGET.cal} kcal`;
+  document.getElementById('todayP').textContent = f(tP);
+  document.getElementById('todayPTarget').textContent = `/ ${DAILY_TARGET.protein}g`;
+  document.getElementById('todayC').textContent = f(tC);
+  document.getElementById('todayCTarget').textContent = `/ ${DAILY_TARGET.carbs}g`;
+  document.getElementById('todayF').textContent = f(tF);
+  document.getElementById('todayFTarget').textContent = `/ ${DAILY_TARGET.fat}g`;
+  document.getElementById('todayFiber').textContent = f(tFiber);
+  document.getElementById('todayCount').textContent = grouped.length;
+}
+
+// Tab switching
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).style.display = 'block';
+  });
+});
+
+// Diet history
+const dietEl = document.getElementById('dietHistory');
+if (MEALS.length === 0) {
+  dietEl.innerHTML = '<div class="no-meals glass" style="margin:10px 0;">还没有饮食记录 🍽️<br><span style="font-size:0.8em;color:#aaa;">告诉姆姆你吃了什么就会出现在这里</span></div>';
+} else {
+  const dayMap = {};
+  MEALS.forEach(m => { if (!dayMap[m.date]) dayMap[m.date] = []; dayMap[m.date].push(m); });
+  Object.keys(dayMap).sort().reverse().forEach(date => {
+    const meals = dayMap[date];
+    const dayCal = meals.reduce((s, m) => s + (m.cal || 0), 0);
+    const grouped = groupMeals(meals);
+    const section = document.createElement('div');
+    section.className = 'diet-day glass';
+    section.innerHTML = `
+      <div class="diet-day-header">
+        <span>${fmt(date)} 星期${dayOfWeek(date)}</span>
+        <span style="display:flex;align-items:center;gap:8px;">
+          <span class="day-cal">${f(dayCal)} kcal</span>
+          <span class="toggle-icon">›</span>
+        </span>
+      </div>
+      <div class="diet-day-body">
+        <div class="carousel-wrap"><div class="carousel-track"></div><div class="carousel-dots"></div></div>
+      </div>`;
+    const header = section.querySelector('.diet-day-header');
+    const body = section.querySelector('.diet-day-body');
+    const icon = section.querySelector('.toggle-icon');
+    header.addEventListener('click', () => {
+      const open = body.style.display === 'block';
+      body.style.display = open ? 'none' : 'block';
+      icon.classList.toggle('open', !open);
+      if (!body.dataset.init) {
+        const cWrap = body.querySelector('.carousel-wrap');
+        buildCarousel(cWrap, cWrap.querySelector('.carousel-track'), cWrap.querySelector('.carousel-dots'), grouped);
+        body.dataset.init = '1';
+      }
+    });
+    dietEl.appendChild(section);
+  });
+}
 </script>
 </body>
 </html>
