@@ -387,7 +387,17 @@ new Chart(document.getElementById('weightChart'), {
 });
 
 // Weekly cards
-function getWeekNum(dateStr) { return Math.floor(diffDays(DATA[0].date, dateStr) / 7); }
+// 按打针周期算周：周五到周四
+function getWeekNum(dateStr) {
+  const d = new Date(dateStr);
+  // 调整：周五=0, 周六=1, ..., 周四=6
+  const day = (d.getDay() + 2) % 7;
+  const first = new Date(DATA[0].date);
+  const firstDay = (first.getDay() + 2) % 7;
+  const firstFri = new Date(first);
+  firstFri.setDate(first.getDate() - firstDay);
+  return Math.floor((d - firstFri) / (7 * 86400000));
+}
 const weekMap = {};
 withWeight.forEach(d => { const wk = getWeekNum(d.date); if (!weekMap[wk]) weekMap[wk] = []; weekMap[wk].push(d); });
 const weeklyEl = document.getElementById('weeklyCards');
