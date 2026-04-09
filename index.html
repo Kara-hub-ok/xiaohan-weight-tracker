@@ -405,6 +405,12 @@ const weekKeys = Object.keys(weekMap).sort((a,b) => b-a);
 const SHOW_RECENT = 4;
 let weeklyExpanded = false;
 
+// 检查某周是否有打针
+const injectionWeeks = {};
+DATA.forEach(d => {
+  if (d.note && d.note.includes('💉')) injectionWeeks[getWeekNum(d.date)] = d.note;
+});
+
 weekKeys.forEach((wk, i) => {
   const entries = weekMap[wk];
   const wStart = entries[0].weight, wEnd = entries[entries.length-1].weight, wLoss = wStart - wEnd;
@@ -412,7 +418,8 @@ weekKeys.forEach((wk, i) => {
   card.className = 'week-card glass';
   if (weekKeys.length > SHOW_RECENT && i >= SHOW_RECENT) card.style.display = 'none';
   card.dataset.weekIdx = i;
-  card.innerHTML = `<div class="wk">第${parseInt(wk)+1}周</div><div class="wv">${wLoss >= 0 ? '-' : '+'}${Math.abs(wLoss).toFixed(1)}kg</div><div class="wk">${wStart.toFixed(1)} → ${wEnd.toFixed(1)}</div>`;
+  const needle = injectionWeeks[wk] ? ' 🪡' : '';
+  card.innerHTML = `<div class="wk">第${parseInt(wk)+1}周${needle}</div><div class="wv">${wLoss >= 0 ? '-' : '+'}${Math.abs(wLoss).toFixed(1)}kg</div><div class="wk">${wStart.toFixed(1)} → ${wEnd.toFixed(1)}</div>`;
   weeklyEl.appendChild(card);
 });
 
