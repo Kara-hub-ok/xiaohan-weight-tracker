@@ -391,7 +391,7 @@ function getWeekNum(dateStr) { return Math.floor(diffDays(DATA[0].date, dateStr)
 const weekMap = {};
 withWeight.forEach(d => { const wk = getWeekNum(d.date); if (!weekMap[wk]) weekMap[wk] = []; weekMap[wk].push(d); });
 const weeklyEl = document.getElementById('weeklyCards');
-const weekKeys = Object.keys(weekMap).sort((a,b) => a-b);
+const weekKeys = Object.keys(weekMap).sort((a,b) => b-a);
 const SHOW_RECENT = 4;
 let weeklyExpanded = false;
 
@@ -400,7 +400,7 @@ weekKeys.forEach((wk, i) => {
   const wStart = entries[0].weight, wEnd = entries[entries.length-1].weight, wLoss = wStart - wEnd;
   const card = document.createElement('div');
   card.className = 'week-card glass';
-  if (weekKeys.length > SHOW_RECENT && i < weekKeys.length - SHOW_RECENT) card.style.display = 'none';
+  if (weekKeys.length > SHOW_RECENT && i >= SHOW_RECENT) card.style.display = 'none';
   card.dataset.weekIdx = i;
   card.innerHTML = `<div class="wk">第${parseInt(wk)+1}周</div><div class="wv">${wLoss >= 0 ? '-' : '+'}${Math.abs(wLoss).toFixed(1)}kg</div><div class="wk">${wStart.toFixed(1)} → ${wEnd.toFixed(1)}</div>`;
   weeklyEl.appendChild(card);
@@ -412,7 +412,7 @@ if (weekKeys.length <= SHOW_RECENT) weeklyToggleBtn.style.display = 'none';
 function toggleWeekly() {
   weeklyExpanded = !weeklyExpanded;
   weeklyEl.querySelectorAll('.week-card').forEach((card, i) => {
-    if (i < weekKeys.length - SHOW_RECENT) card.style.display = weeklyExpanded ? '' : 'none';
+    if (i >= SHOW_RECENT) card.style.display = weeklyExpanded ? '' : 'none';
   });
   weeklyToggleBtn.textContent = weeklyExpanded ? '收起' : '展开全部';
 }
