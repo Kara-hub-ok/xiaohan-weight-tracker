@@ -468,7 +468,7 @@ Object.keys(monthMap).sort().reverse().forEach(month => {
   const card = document.createElement('div');
   card.className = 'week-card glass';
   const mm = month.split('-')[1];
-  card.innerHTML = `<div class="wk">${monthNames[mm] || mm}</div><div class="wv">${mLoss >= 0 ? '-' : '+'}${Math.abs(mLoss).toFixed(1)}kg</div><div class="wk">${mStart.toFixed(1)} → ${mEnd.toFixed(1)}</div><div class="wk" style="margin-top:2px;font-size:0.72em;color:#aaa;">最低 ${mMin.toFixed(1)} / 最高 ${mMax.toFixed(1)}</div>`;
+  card.innerHTML = `<div class="wk">${monthNames[mm] || mm}</div><div class="wk" style="font-size:0.7em;color:#aaa;">${fmt(entries[0].date)} - ${fmt(entries[entries.length-1].date)}</div><div class="wv">${mLoss >= 0 ? '-' : '+'}${Math.abs(mLoss).toFixed(1)}kg</div><div class="wk">${mStart.toFixed(1)} → ${mEnd.toFixed(1)}</div><div class="wk" style="margin-top:2px;font-size:0.72em;color:#aaa;">最低 ${mMin.toFixed(1)} / 最高 ${mMax.toFixed(1)}</div>`;
   monthlyEl.appendChild(card);
 });
 
