@@ -229,6 +229,9 @@
   <button id="weeklyToggle" onclick="toggleWeekly()" style="background:none;border:1px solid rgba(74,124,89,0.25);color:#4a7c59;padding:6px 18px;border-radius:10px;font-size:0.82em;cursor:pointer;font-weight:500;transition:all 0.2s;">展开全部</button>
 </div>
 
+<div class="section-title">📅 每月汇总</div>
+<div class="weekly" id="monthlyCards"></div>
+
 <div class="tabs glass-strong">
   <div class="tab active" data-tab="weight">📋 每日明细</div>
   <div class="tab" data-tab="diet">🍽️ 每日饮食</div>
@@ -446,6 +449,28 @@ function toggleWeekly() {
   });
   weeklyToggleBtn.textContent = weeklyExpanded ? '收起' : '展开全部';
 }
+
+// Monthly cards
+const monthMap = {};
+withWeight.forEach(d => {
+  const month = d.date.slice(0, 7); // YYYY-MM
+  if (!monthMap[month]) monthMap[month] = [];
+  monthMap[month].push(d);
+});
+const monthlyEl = document.getElementById('monthlyCards');
+const monthNames = { '01':'一月','02':'二月','03':'三月','04':'四月','05':'五月','06':'六月','07':'七月','08':'八月','09':'九月','10':'十月','11':'十一月','12':'十二月' };
+Object.keys(monthMap).sort().reverse().forEach(month => {
+  const entries = monthMap[month];
+  const mStart = entries[0].weight, mEnd = entries[entries.length-1].weight;
+  const mLoss = mStart - mEnd;
+  const mMin = Math.min(...entries.map(e => e.weight));
+  const mMax = Math.max(...entries.map(e => e.weight));
+  const card = document.createElement('div');
+  card.className = 'week-card glass';
+  const mm = month.split('-')[1];
+  card.innerHTML = `<div class="wk">${monthNames[mm] || mm}</div><div class="wv">${mLoss >= 0 ? '-' : '+'}${Math.abs(mLoss).toFixed(1)}kg</div><div class="wk">${mStart.toFixed(1)} → ${mEnd.toFixed(1)}</div><div class="wk" style="margin-top:2px;font-size:0.72em;color:#aaa;">最低 ${mMin.toFixed(1)} / 最高 ${mMax.toFixed(1)}</div>`;
+  monthlyEl.appendChild(card);
+});
 
 // Table
 const tbody = document.getElementById('tableBody');
