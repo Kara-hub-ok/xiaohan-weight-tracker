@@ -666,25 +666,17 @@ if (MEALS.length === 0) {
 // Fun facts modal
 const funFacts = [
   { emoji: '💧', text: (kg) => `${(kg/0.55).toFixed(0)} 瓶农夫山泉`, sub: '标准550ml装' },
-  { emoji: '🍎', text: (kg) => `${(kg/0.2).toFixed(0)} 个苹果`, sub: '每个约200g' },
-  { emoji: '🍔', text: (kg) => `${(kg/0.2).toFixed(0)} 个巨无霸汉堡`, sub: '每个约200g' },
-  { emoji: '📱', text: (kg) => `${(kg/0.175).toFixed(0)} 部 iPhone`, sub: '每部约175g' },
-  { emoji: '🧈', text: (kg) => `${(kg/4).toFixed(1)} 只布偶熊`, sub: '标准泰迪熊约4kg' },
-  { emoji: '🐱', text: (kg) => `${(kg/4.5).toFixed(1)} 只成年猫咪`, sub: '平均体重4.5kg' },
-  { emoji: '🍉', text: (kg) => `${(kg/5).toFixed(1)} 个大西瓜`, sub: '每个约5kg' },
-  { emoji: '👶', text: (kg) => `${(kg/3.3).toFixed(1)} 个新生儿`, sub: '平均出生体重3.3kg' },
-  { emoji: '🎳', text: (kg) => `${(kg/6.35).toFixed(1)} 个保龄球`, sub: '每个约6.35kg' },
+  { emoji: '💪', text: (kg,pct) => `减掉了 ${pct}% 的原来的自己`, sub: `从 ${first.weight}kg → ${last.weight}kg` },
 ];
 
 document.getElementById('lossCard').addEventListener('click', () => {
   const lossKg = loss;
+  const pct = (lossKg / first.weight * 100).toFixed(1);
   const modal = document.getElementById('funModal');
   const title = document.getElementById('funTitle');
   const items = document.getElementById('funItems');
-  title.textContent = `\u4f60\u5df2\u7ecf\u51cf\u6389\u4e86 ${lossKg.toFixed(1)}kg\uff01`;
-  // Shuffle and pick 5
-  const shuffled = funFacts.sort(() => Math.random() - 0.5).slice(0, 5);
-  items.innerHTML = shuffled.map(f => `<div class="fun-item"><div class="fun-emoji">${f.emoji}</div><div class="fun-text">${f.text(lossKg)}</div><div class="fun-sub">${f.sub}</div></div>`).join('');
+  title.textContent = `你已经减掉了 ${lossKg.toFixed(1)}kg！`;
+  items.innerHTML = funFacts.map(f => `<div class="fun-item"><div class="fun-emoji">${f.emoji}</div><div class="fun-text">${f.text(lossKg,pct)}</div><div class="fun-sub">${f.sub}</div></div>`).join('');
   modal.classList.add('show');
 });
 </script>
