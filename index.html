@@ -204,7 +204,7 @@
   <div class="stat-card glass" id="lossCard" style="cursor:pointer"><div class="label">已减</div><div class="value" id="totalLoss">--</div><div class="sub" id="totalDays"></div></div>
 </div>
 <div class="stats">
-  <div class="stat-card glass"><div class="label">下一目标</div><div class="value accent" id="goalW">59.0</div><div class="sub">5月30日前</div></div>
+  <div class="stat-card glass" id="goalCard" style="cursor:pointer"><div class="label">下一目标</div><div class="value accent" id="goalW">59.0</div><div class="sub">5月30日前</div></div>
   <div class="stat-card glass"><div class="label">距目标</div><div class="value accent" id="toGoal">--</div><div class="sub">还差</div></div>
   <div class="stat-card glass"><div class="label">周均减重</div><div class="value" id="weeklyAvg">--</div><div class="sub">kg/周</div></div>
 </div>
@@ -349,10 +349,10 @@ const DATA = [
 const GOAL = 59.0;
 const ULTIMATE_GOAL = 50.0;
 const MILESTONES = [
-  { kg: 62.0, by: '4/30', done: true },
-  { kg: 59.0, by: '5/30', done: false },
-  { kg: 56.0, by: '6/16', done: false },
-  { kg: 50.0, by: '终极', done: false },
+  { kg: 62.0, by: '4/30', done: true, doneDate: '4/26' },
+  { kg: 59.0, by: '5/30', done: false, doneDate: null },
+  { kg: 56.0, by: '6/16', done: false, doneDate: null },
+  { kg: 50.0, by: '终极', done: false, doneDate: null },
 ];
 
 // ===== 渲染逻辑 =====
@@ -688,6 +688,23 @@ document.getElementById('lossCard').addEventListener('click', () => {
   const items = document.getElementById('funItems');
   title.textContent = `你已经减掉了 ${lossKg.toFixed(1)}kg！`;
   items.innerHTML = funFacts.map(f => `<div class="fun-item"><div class="fun-emoji">${f.emoji}</div><div class="fun-text">${f.text(lossKg,pct)}</div><div class="fun-sub">${f.sub}</div></div>`).join('');
+  modal.classList.add('show');
+});
+
+// Goal milestones modal
+document.getElementById('goalCard').addEventListener('click', () => {
+  const modal = document.getElementById('funModal');
+  const title = document.getElementById('funTitle');
+  const items = document.getElementById('funItems');
+  title.textContent = '🎯 我的目标路线图';
+  items.innerHTML = MILESTONES.map(m => {
+    if (m.done) {
+      return `<div class="fun-item"><div class="fun-emoji">✅</div><div class="fun-text">${m.kg}kg</div><div class="fun-sub">目标 ${m.by} · 实际 ${m.doneDate} 达成！</div></div>`;
+    } else {
+      const diff = (last.weight - m.kg).toFixed(1);
+      return `<div class="fun-item"><div class="fun-emoji">⏳</div><div class="fun-text">${m.kg}kg</div><div class="fun-sub">目标 ${m.by} · 还差 ${diff}kg</div></div>`;
+    }
+  }).join('');
   modal.classList.add('show');
 });
 </script>
