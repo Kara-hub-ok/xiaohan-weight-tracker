@@ -204,7 +204,7 @@
   <div class="stat-card glass" id="lossCard" style="cursor:pointer"><div class="label">已减</div><div class="value" id="totalLoss">--</div><div class="sub" id="totalDays"></div></div>
 </div>
 <div class="stats">
-  <div class="stat-card glass"><div class="label">目标</div><div class="value accent" id="goalW">62.0</div><div class="sub">4月30日前</div></div>
+  <div class="stat-card glass"><div class="label">下一目标</div><div class="value accent" id="goalW">59.0</div><div class="sub">5月30日前</div></div>
   <div class="stat-card glass"><div class="label">距目标</div><div class="value accent" id="toGoal">--</div><div class="sub">还差</div></div>
   <div class="stat-card glass"><div class="label">周均减重</div><div class="value" id="weeklyAvg">--</div><div class="sub">kg/周</div></div>
 </div>
@@ -346,8 +346,14 @@ const DATA = [
   { date: '2026-04-26', weight: 62.0, exercise: '', note: '' },
 ];
 
-const GOAL = 62.0;
+const GOAL = 59.0;
 const ULTIMATE_GOAL = 50.0;
+const MILESTONES = [
+  { kg: 62.0, by: '4/30', done: true },
+  { kg: 59.0, by: '5/30', done: false },
+  { kg: 56.0, by: '6/16', done: false },
+  { kg: 50.0, by: '终极', done: false },
+];
 
 // ===== 渲染逻辑 =====
 const DAYS = ['日','一','二','三','四','五','六'];
@@ -404,6 +410,11 @@ new Chart(document.getElementById('weightChart'), {
         label: '目标 ' + GOAL + 'kg',
         data: Array(chartLabels.length).fill(GOAL),
         borderColor: 'rgba(231, 76, 60, 0.4)', borderDash: [6, 4], borderWidth: 1.5, pointRadius: 0, fill: false,
+      },
+      {
+        label: '56kg (6/16)',
+        data: Array(chartLabels.length).fill(56),
+        borderColor: 'rgba(243, 156, 18, 0.35)', borderDash: [4, 4], borderWidth: 1, pointRadius: 0, fill: false,
       },
       {
         label: '终极目标 ' + ULTIMATE_GOAL + 'kg',
