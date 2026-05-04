@@ -470,7 +470,8 @@ function getWeekNum(dateStr) {
 const weekMap = {};
 withWeight.forEach(d => { const wk = getWeekNum(d.date); if (!weekMap[wk]) weekMap[wk] = []; weekMap[wk].push(d); });
 const weeklyEl = document.getElementById('weeklyCards');
-const weekKeys = Object.keys(weekMap).sort((a,b) => b-a);
+const weekKeysSorted = Object.keys(weekMap).sort((a,b) => a-b);
+const weekKeys = [...weekKeysSorted].reverse();
 const SHOW_RECENT = 4;
 let weeklyExpanded = false;
 
@@ -482,7 +483,13 @@ DATA.forEach(d => {
 
 weekKeys.forEach((wk, i) => {
   const entries = weekMap[wk];
-  const wStart = entries[0].weight, wEnd = entries[entries.length-1].weight, wLoss = wStart - wEnd;
+  // 用上一周最后一天的体重作为起始值
+  const wkIdx = weekKeysSorted.indexOf(wk);
+  const prevWk = wkIdx > 0 ? weekKeysSorted[wkIdx - 1] : null;
+  const prevWkLast = prevWk ? weekMap[prevWk][weekMap[prevWk].length - 1].weight : null;
+  const wStart = prevWkLast !== null ? prevWkLast : entries[0].weight;
+  const wEnd = entries[entries.length-1].weight;
+  const wLoss = wStart - wEnd;
   const card = document.createElement('div');
   card.className = 'week-card glass';
   if (weekKeys.length > SHOW_RECENT && i >= SHOW_RECENT) card.style.display = 'none';
