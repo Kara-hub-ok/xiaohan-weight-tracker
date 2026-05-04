@@ -512,9 +512,16 @@ withWeight.forEach(d => {
 });
 const monthlyEl = document.getElementById('monthlyCards');
 const monthNames = { '01':'一月','02':'二月','03':'三月','04':'四月','05':'五月','06':'六月','07':'七月','08':'八月','09':'九月','10':'十月','11':'十一月','12':'十二月' };
-Object.keys(monthMap).sort().reverse().forEach(month => {
+const sortedMonths = Object.keys(monthMap).sort();
+sortedMonths.reverse().forEach((month, idx) => {
   const entries = monthMap[month];
-  const mStart = entries[0].weight, mEnd = entries[entries.length-1].weight;
+  // 当月的起始体重：用上个月最后一天的体重（如果有）
+  const sortedAll = Object.keys(monthMap).sort();
+  const monthIdx = sortedAll.indexOf(month);
+  const prevMonth = monthIdx > 0 ? sortedAll[monthIdx - 1] : null;
+  const prevMonthLast = prevMonth ? monthMap[prevMonth][monthMap[prevMonth].length - 1].weight : null;
+  const mStart = prevMonthLast !== null ? prevMonthLast : entries[0].weight;
+  const mEnd = entries[entries.length-1].weight;
   const mLoss = mStart - mEnd;
   const mMin = Math.min(...entries.map(e => e.weight));
   const mMax = Math.max(...entries.map(e => e.weight));
