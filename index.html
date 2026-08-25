@@ -268,6 +268,30 @@
   @media (max-width: 520px) { .stat-card { padding:4px 5px 8px; } .progress-wrap { margin-right:42px; margin-left:42px; } .week-card { padding:13px 7px; } .chart-container { padding-top:16px; } .chart-y-axis { left:0; top:16px; } }
   @media (max-width: 520px) { body { padding:24px 14px 36px; } h1 { margin:6px 2px 24px; } .stat-card .value { font-size:1.25rem; } .chart-container { padding-right:0; padding-left:0; } }
 
+  .exam-overview { margin:0 0 18px; color:var(--muted); font-size:.8rem; line-height:1.7; }
+  .exam-records { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:18px; margin:0 0 22px; }
+  .exam-record { padding:0 0 14px; border-bottom:1px solid var(--line); }
+  .exam-date { color:var(--green); font-size:.76rem; font-weight:700; letter-spacing:.05em; }
+  .exam-name { margin:4px 0 7px; font-size:.94rem; font-weight:650; }
+  .exam-content { color:var(--muted); font-size:.77rem; line-height:1.7; }
+  .attention-list { margin:0 0 24px; border-top:1px solid var(--line); }
+  .attention-item { display:grid; grid-template-columns:112px 1fr; gap:12px; padding:13px 0; border-bottom:1px solid var(--line); }
+  .attention-label { color:#8a7440; font-size:.79rem; font-weight:700; }
+  .attention-copy { color:var(--muted); font-size:.78rem; line-height:1.65; }
+  .exam-table-wrap { overflow-x:auto; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .exam-table { min-width:680px; }
+  .exam-table th { background:transparent; color:var(--muted); border-bottom:1px solid var(--line); font-weight:650; }
+  .exam-table td { background:transparent; }
+  .exam-table .ok { color:var(--green); font-weight:650; }
+  .exam-table .watch { color:#8a7440; font-weight:700; }
+  .daily-details { margin-top:30px; }
+  .daily-details > summary { display:flex; align-items:center; justify-content:space-between; list-style:none; cursor:pointer; color:var(--ink); font-size:.9rem; letter-spacing:.02em; }
+  .daily-details > summary::-webkit-details-marker { display:none; }
+  .daily-details > summary::after { content:'展开'; color:var(--muted); font-size:.75rem; font-weight:500; }
+  .daily-details[open] > summary { margin-bottom:10px; }
+  .daily-details[open] > summary::after { content:'收起'; }
+  @media (max-width:520px) { .exam-records { grid-template-columns:1fr; gap:12px; } .attention-item { grid-template-columns:88px 1fr; gap:8px; } }
+
 </style>
 </head>
 <body>
@@ -309,13 +333,21 @@
 <div class="section-title">📅 每月汇总</div>
 <div class="weekly" id="monthlyCards"></div>
 
-<div class="section-title">📋 每日明细</div>
-<div class="table-wrap glass-strong">
-<table>
-  <thead><tr><th>日期</th><th>星期</th><th>体重</th><th>变化</th><th>运动</th><th>备注</th></tr></thead>
-  <tbody id="tableBody"></tbody>
-</table>
-</div>
+<div class="section-title">🩺 体检信息</div>
+<div class="exam-overview">已收录 2 次检查。下方呈现每次检查内容、关键指标对比和需要持续留意的项目。</div>
+<div class="exam-records" id="examRecords"></div>
+<div id="examAttention"></div>
+<div class="exam-table-wrap"><table class="exam-table"><thead><tr><th>项目</th><th>2026/03/13</th><th>2026/08/25</th><th>变化与判断</th></tr></thead><tbody id="examTableBody"></tbody></table></div>
+
+<details class="daily-details">
+  <summary>📋 每日明细</summary>
+  <div class="table-wrap glass-strong">
+  <table>
+    <thead><tr><th>日期</th><th>星期</th><th>体重</th><th>变化</th><th>运动</th><th>备注</th></tr></thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+  </div>
+</details>
 
 <div class="modal-overlay" id="funModal" onclick="this.classList.remove('show')">
   <div class="modal-box" onclick="event.stopPropagation()">
@@ -329,6 +361,34 @@
 
 <script>
 // ===== 数据区 =====
+// ===== 体检数据区 =====
+// 后续新增检查时，只需补充 EXAMS 和 EXAM_METRICS 即可自动呈现。
+const EXAMS = [
+  { date:'2026-03-13', title:'减重用药前基线检查', content:'空腹血糖、胰岛素、C肽、血脂、肝肾功能、尿酸、25-羟维生素D等。' },
+  { date:'2026-08-25', title:'减重期间复查抽血', content:'复查糖代谢、胰岛素抵抗、血脂、肝肾功能、尿酸及维生素D；建议下次加查 HbA1c。' },
+];
+const EXAM_METRICS = [
+  { name:'空腹血糖', unit:'mmol/L', before:'5.27', after:'5.09', note:'正常，略降', status:'ok' },
+  { name:'空腹胰岛素', unit:'mIU/L', before:'12.26', after:'5.63', note:'明显下降', status:'ok' },
+  { name:'C肽', unit:'', before:'1.72', after:'1.34', note:'正常，下降', status:'ok' },
+  { name:'HOMA-IR（计算）', unit:'', before:'2.87', after:'1.27', note:'轻微胰岛素抵抗改善至无明显抵抗', status:'ok' },
+  { name:'总胆固醇 TC', unit:'mmol/L', before:'5.72 ↑', after:'4.76', note:'回到正常', status:'ok' },
+  { name:'LDL-C', unit:'mmol/L', before:'3.69 ↑', after:'2.81', note:'回到正常', status:'ok' },
+  { name:'HDL-C', unit:'mmol/L', before:'1.43', after:'1.26', note:'略降，仍正常', status:'ok' },
+  { name:'甘油三酯 TG', unit:'mmol/L', before:'1.45', after:'2.79 ↑', note:'轻中度升高，需复查', status:'watch' },
+  { name:'ALT', unit:'U/L', before:'22', after:'16.4', note:'正常', status:'ok' },
+  { name:'AST', unit:'U/L', before:'23', after:'19.7', note:'正常', status:'ok' },
+  { name:'GGT', unit:'U/L', before:'19.9', after:'12.9', note:'正常', status:'ok' },
+  { name:'肌酐', unit:'μmol/L', before:'47.9', after:'48.7', note:'稳定正常', status:'ok' },
+  { name:'尿酸', unit:'μmol/L', before:'307.5', after:'213.8', note:'明显下降，正常', status:'ok' },
+  { name:'25-羟维生素D', unit:'ng/mL', before:'10.10', after:'30', note:'由严重缺乏补至达标临界', status:'watch' },
+];
+const EXAM_ATTENTION = [
+  { label:'甘油三酯 2.79', copy:'本次唯一明确异常。建议严格空腹、少糖少酒、减少精制碳水并规律活动后，于 1–3 个月复查血脂；若持续偏高，带结果就医评估。' },
+  { label:'维生素D 30', copy:'已从严重缺乏改善至达标临界。继续维D3 2000IU随餐，后续复查时一并观察。' },
+  { label:'下次复查', copy:'建议同时加查 HbA1c，用于观察近 2–3 个月的平均血糖趋势。' },
+];
+
 const DATA = [
   { date: '2026-03-12', weight: 70.0, exercise: '游泳 1000m', note: '起始' },
   { date: '2026-03-13', weight: null, exercise: '步行 18000步', note: '体检日' },
@@ -632,6 +692,14 @@ sortedMonths.reverse().forEach((month, idx) => {
   card.innerHTML = `<div class="wk">${monthNames[mm] || mm}</div><div class="wk" style="font-size:0.7em;color:#aaa;">${fmt(entries[0].date)} - ${fmt(entries[entries.length-1].date)}</div><div class="wv">${mLoss >= 0 ? '-' : '+'}${Math.abs(mLoss).toFixed(1)}kg</div><div class="wk">${mStart.toFixed(1)} → ${mEnd.toFixed(1)}</div><div class="wk" style="margin-top:2px;font-size:0.72em;color:#aaa;">最低 ${mMin.toFixed(1)} / 最高 ${mMax.toFixed(1)}</div>`;
   monthlyEl.appendChild(card);
 });
+
+// Exam records and comparison
+const examRecordsEl = document.getElementById('examRecords');
+examRecordsEl.innerHTML = EXAMS.map(exam => `<article class="exam-record"><div class="exam-date">${fmt(exam.date)}</div><div class="exam-name">${exam.title}</div><p class="exam-content">${exam.content}</p></article>`).join('');
+const examAttentionEl = document.getElementById('examAttention');
+examAttentionEl.innerHTML = `<div class="section-title" style="margin-top:0">需要留意</div><div class="attention-list">${EXAM_ATTENTION.map(item => `<div class="attention-item"><div class="attention-label">${item.label}</div><div class="attention-copy">${item.copy}</div></div>`).join('')}</div>`;
+const examTableBody = document.getElementById('examTableBody');
+examTableBody.innerHTML = EXAM_METRICS.map(metric => `<tr><td>${metric.name}${metric.unit ? ` <span style="color:#9ba19b;font-size:.72em">${metric.unit}</span>` : ''}</td><td>${metric.before}</td><td class="${metric.status}">${metric.after}</td><td class="${metric.status}">${metric.note}</td></tr>`).join('');
 
 // Table
 const tbody = document.getElementById('tableBody');
