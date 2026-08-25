@@ -283,24 +283,6 @@
   <div class="chart-scroll-hint">← 左右滑动查看完整趋势 →</div>
 </div>
 
-<div class="section-title">🍽️ 今日饮食</div>
-<div class="today-summary glass-strong" id="todaySummary" style="display:none; padding:16px; margin:10px 0;">
-  <div class="stats" style="margin:0;">
-    <div class="stat-card" style="padding:10px;"><div class="label">总热量</div><div class="value" id="todayCal">--</div><div class="sub"><span id="todayCalTarget"></span></div></div>
-    <div class="stat-card" style="padding:10px;"><div class="label">蛋白质</div><div class="value" id="todayP">--</div><div class="sub"><span id="todayPTarget"></span></div></div>
-    <div class="stat-card" style="padding:10px;"><div class="label">碳水</div><div class="value" id="todayC">--</div><div class="sub"><span id="todayCTarget"></span></div></div>
-  </div>
-  <div class="stats" style="margin:8px 0 0;">
-    <div class="stat-card" style="padding:10px;"><div class="label">脂肪</div><div class="value" id="todayF">--</div><div class="sub"><span id="todayFTarget"></span></div></div>
-    <div class="stat-card" style="padding:10px;"><div class="label">纤维</div><div class="value" id="todayFiber">--</div><div class="sub">g</div></div>
-    <div class="stat-card" style="padding:10px;"><div class="label">餐次</div><div class="value" id="todayCount">--</div><div class="sub">次</div></div>
-  </div>
-</div>
-<div class="carousel-wrap" id="todayCarousel">
-  <div class="carousel-track" id="todayTrack"></div>
-  <div class="carousel-dots" id="todayDots"></div>
-</div>
-
 <div class="section-title">📊 每周汇总</div>
 <div class="weekly" id="weeklyCards"></div>
 <div style="text-align:center;margin:8px 0 16px;">
@@ -310,22 +292,12 @@
 <div class="section-title">📅 每月汇总</div>
 <div class="weekly" id="monthlyCards"></div>
 
-<div class="tabs glass-strong">
-  <div class="tab active" data-tab="weight">📋 每日明细</div>
-  <div class="tab" data-tab="diet">🍽️ 每日饮食</div>
-</div>
-
-<div class="tab-content" id="tab-weight">
-<div class="table-wrap glass-strong" style="margin-top:0; border-top-left-radius:0; border-top-right-radius:0;">
+<div class="section-title">📋 每日明细</div>
+<div class="table-wrap glass-strong">
 <table>
   <thead><tr><th>日期</th><th>星期</th><th>体重</th><th>变化</th><th>运动</th><th>备注</th></tr></thead>
   <tbody id="tableBody"></tbody>
 </table>
-</div>
-</div>
-
-<div class="tab-content" id="tab-diet" style="display:none;">
-<div id="dietHistory"></div>
 </div>
 
 <div class="modal-overlay" id="funModal" onclick="this.classList.remove('show')">
@@ -340,30 +312,6 @@
 
 <script>
 // ===== 数据区 =====
-const DAILY_TARGET = { cal: 1200, protein: 70, carbs: 125, fat: 40 };
-function f(n) { return Number(n).toFixed(1); }
-
-// 饮食记录 - 每次小涵报告吃了什么就在这里添加
-const MEALS = [
-  { date: '2026-04-09', meal: '午餐', items: '酸菜鱼（鱼肉200g）', cal: 250, protein: 36, carbs: 2, fat: 10, fiber: 0 },
-  { date: '2026-04-09', meal: '午餐', items: '酸菜+汤底', cal: 150, protein: 2, carbs: 5, fat: 13, fiber: 1 },
-  { date: '2026-04-09', meal: '午餐', items: '杂粮饭一小坨 ~100g', cal: 120, protein: 3, carbs: 25, fat: 1, fiber: 2 },
-  { date: '2026-04-09', meal: '晚餐', items: '鸭腿 ~80g', cal: 180, protein: 16, carbs: 0, fat: 13, fiber: 0 },
-  { date: '2026-04-09', meal: '晚餐', items: '肉丸子 1个', cal: 120, protein: 8, carbs: 5, fat: 7, fiber: 0 },
-  { date: '2026-04-09', meal: '晚餐', items: '糖醋沙巴鱼 ~80g', cal: 150, protein: 10, carbs: 12, fat: 7, fiber: 0 },
-  { date: '2026-04-09', meal: '晚餐', items: '炒豆芽青菜', cal: 45, protein: 3, carbs: 5, fat: 2, fiber: 2 },
-  { date: '2026-04-09', meal: '晚餐', items: '醋溜白菜', cal: 40, protein: 1, carbs: 6, fat: 2, fiber: 1.5 },
-  { date: '2026-04-09', meal: '加餐', items: '蛋白粉 半杯', cal: 60, protein: 12, carbs: 1.5, fat: 0.5, fiber: 0 },
-  { date: '2026-04-09', meal: '加餐', items: '牛肉干 15g', cal: 56, protein: 9.8, carbs: 1, fat: 1.6, fiber: 0 },
-  { date: '2026-04-13', meal: '午餐', items: '福鼎肉片（大份）', cal: 420, protein: 35, carbs: 22, fat: 18, fiber: 1 },
-  { date: '2026-04-13', meal: '午餐', items: '腐乳空心菜', cal: 80, protein: 3, carbs: 5, fat: 5, fiber: 2 },
-  { date: '2026-04-19', meal: '午餐', items: '白水浮肉 200g', cal: 260, protein: 40, carbs: 0, fat: 10, fiber: 0 },
-  { date: '2026-04-19', meal: '晚餐', items: '滑牛肉 ~300g', cal: 550, protein: 48, carbs: 5, fat: 30, fiber: 0 },
-  { date: '2026-04-19', meal: '晚餐', items: '蔡菜/菌菇', cal: 80, protein: 4, carbs: 8, fat: 2, fiber: 3 },
-  { date: '2026-04-19', meal: '晚餐', items: '锅底油脂+蘸料', cal: 370, protein: 2, carbs: 5, fat: 38, fiber: 0 },
-  { date: '2026-04-19', meal: '晚餐', items: '蛋炒饭 3口', cal: 90, protein: 3, carbs: 12, fat: 3, fiber: 0 },
-];
-
 const DATA = [
   { date: '2026-03-12', weight: 70.0, exercise: '游泳 1000m', note: '起始' },
   { date: '2026-03-13', weight: null, exercise: '步行 18000步', note: '体检日' },
@@ -688,139 +636,6 @@ DATA.forEach(d => {
   tr.innerHTML = `<td>${fmt(d.date)}</td><td>${dayOfWeek(d.date)}</td><td style="font-weight:600">${d.weight !== null ? d.weight.toFixed(1) : '-'}</td><td>${changeHtml}</td><td>${exerciseHtml}</td><td>${d.note || ''}</td>`;
   tbody.appendChild(tr);
 });
-
-// ===== 饮食模块 =====
-function groupMeals(meals) {
-  const map = {};
-  meals.forEach(m => {
-    const key = m.meal;
-    if (!map[key]) map[key] = { meal: m.meal, items: [], cal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0 };
-    map[key].items.push({ name: m.items, cal: m.cal });
-    map[key].cal += m.cal || 0;
-    map[key].protein += m.protein || 0;
-    map[key].carbs += m.carbs || 0;
-    map[key].fat += m.fat || 0;
-    map[key].fiber += m.fiber || 0;
-  });
-  return Object.values(map);
-}
-
-function buildCarousel(wrapEl, trackEl, dotsEl, grouped) {
-  let idx = 0;
-  grouped.forEach(g => {
-    const card = document.createElement('div');
-    card.className = 'carousel-card glass';
-    const itemsHtml = g.items.map(i => `<div class="cc-item"><span>${i.name}</span><span>${f(i.cal)} kcal</span></div>`).join('');
-    card.innerHTML = `
-      <div class="cc-header"><span class="cc-meal">${g.meal}</span><span class="cc-cal">${f(g.cal)} kcal</span></div>
-      <div class="cc-items">${itemsHtml}</div>
-      <div class="cc-macros">
-        <span>蛋白质 ${f(g.protein)}g</span><span>碳水 ${f(g.carbs)}g</span><span>脂肪 ${f(g.fat)}g</span>
-        ${g.fiber ? `<span>纤维 ${f(g.fiber)}g</span>` : ''}
-      </div>`;
-    trackEl.appendChild(card);
-  });
-  grouped.forEach((_, i) => {
-    const dot = document.createElement('div');
-    dot.className = 'dot' + (i === 0 ? ' active' : '');
-    dot.onclick = () => goTo(i);
-    dotsEl.appendChild(dot);
-  });
-  if (grouped.length > 1) {
-    const prev = document.createElement('button'); prev.className = 'carousel-nav prev'; prev.innerHTML = '‹'; prev.onclick = () => goTo(Math.max(0, idx - 1));
-    const next = document.createElement('button'); next.className = 'carousel-nav next'; next.innerHTML = '›'; next.onclick = () => goTo(Math.min(grouped.length - 1, idx + 1));
-    wrapEl.appendChild(prev); wrapEl.appendChild(next);
-  }
-  function goTo(i) {
-    idx = i;
-    trackEl.style.transform = `translateX(-${i * 100}%)`;
-    dotsEl.querySelectorAll('.dot').forEach((d, j) => d.classList.toggle('active', j === i));
-  }
-  let startX = 0;
-  trackEl.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
-  trackEl.addEventListener('touchend', e => {
-    const diff = startX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) goTo(Math.max(0, Math.min(grouped.length - 1, idx + (diff > 0 ? 1 : -1))));
-  });
-}
-
-// Today's meals
-const today = new Date().toISOString().slice(0, 10);
-const todayMeals = MEALS.filter(m => m.date === today);
-const todayTrack = document.getElementById('todayTrack');
-const todayDots = document.getElementById('todayDots');
-const todayCarousel = document.getElementById('todayCarousel');
-
-if (todayMeals.length === 0) {
-  todayCarousel.innerHTML = '<div class="no-meals glass">今天还没有饮食记录 🍽️</div>';
-} else {
-  const grouped = groupMeals(todayMeals);
-  buildCarousel(todayCarousel, todayTrack, todayDots, grouped);
-  document.getElementById('todaySummary').style.display = 'block';
-  let tCal = 0, tP = 0, tC = 0, tF = 0, tFiber = 0;
-  todayMeals.forEach(m => { tCal += m.cal||0; tP += m.protein||0; tC += m.carbs||0; tF += m.fat||0; tFiber += m.fiber||0; });
-  document.getElementById('todayCal').textContent = f(tCal);
-  document.getElementById('todayCalTarget').textContent = `/ ${DAILY_TARGET.cal} kcal`;
-  document.getElementById('todayP').textContent = f(tP);
-  document.getElementById('todayPTarget').textContent = `/ ${DAILY_TARGET.protein}g`;
-  document.getElementById('todayC').textContent = f(tC);
-  document.getElementById('todayCTarget').textContent = `/ ${DAILY_TARGET.carbs}g`;
-  document.getElementById('todayF').textContent = f(tF);
-  document.getElementById('todayFTarget').textContent = `/ ${DAILY_TARGET.fat}g`;
-  document.getElementById('todayFiber').textContent = f(tFiber);
-  document.getElementById('todayCount').textContent = grouped.length;
-}
-
-// Tab switching
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
-    tab.classList.add('active');
-    document.getElementById('tab-' + tab.dataset.tab).style.display = 'block';
-  });
-});
-
-// Diet history
-const dietEl = document.getElementById('dietHistory');
-if (MEALS.length === 0) {
-  dietEl.innerHTML = '<div class="no-meals glass" style="margin:10px 0;">还没有饮食记录 🍽️<br><span style="font-size:0.8em;color:#aaa;">告诉姆姆你吃了什么就会出现在这里</span></div>';
-} else {
-  const dayMap = {};
-  MEALS.forEach(m => { if (!dayMap[m.date]) dayMap[m.date] = []; dayMap[m.date].push(m); });
-  Object.keys(dayMap).sort().reverse().forEach(date => {
-    const meals = dayMap[date];
-    const dayCal = meals.reduce((s, m) => s + (m.cal || 0), 0);
-    const grouped = groupMeals(meals);
-    const section = document.createElement('div');
-    section.className = 'diet-day glass';
-    section.innerHTML = `
-      <div class="diet-day-header">
-        <span>${fmt(date)} 星期${dayOfWeek(date)}</span>
-        <span style="display:flex;align-items:center;gap:8px;">
-          <span class="day-cal">${f(dayCal)} kcal</span>
-          <span class="toggle-icon">›</span>
-        </span>
-      </div>
-      <div class="diet-day-body">
-        <div class="carousel-wrap"><div class="carousel-track"></div><div class="carousel-dots"></div></div>
-      </div>`;
-    const header = section.querySelector('.diet-day-header');
-    const body = section.querySelector('.diet-day-body');
-    const icon = section.querySelector('.toggle-icon');
-    header.addEventListener('click', () => {
-      const open = body.style.display === 'block';
-      body.style.display = open ? 'none' : 'block';
-      icon.classList.toggle('open', !open);
-      if (!body.dataset.init) {
-        const cWrap = body.querySelector('.carousel-wrap');
-        buildCarousel(cWrap, cWrap.querySelector('.carousel-track'), cWrap.querySelector('.carousel-dots'), grouped);
-        body.dataset.init = '1';
-      }
-    });
-    dietEl.appendChild(section);
-  });
-}
 
 // Fun facts modal
 const funFacts = [
