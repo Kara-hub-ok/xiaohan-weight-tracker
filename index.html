@@ -249,7 +249,24 @@
   .modal-box .modal-title { color:var(--ink); background:none; -webkit-text-fill-color:currentColor; }
   .modal-close { background:var(--green); border-radius:9px; }
   .footer { margin:32px 0 0; color:#a4aaa4; }
-  @media (max-width: 520px) { body { padding:24px 14px 36px; } h1 { margin:6px 2px 24px; } .stats { gap:7px; } .stat-card { padding:14px 5px 12px; } .stat-card .value { font-size:1.25rem; } .chart-container { padding:16px 12px 12px; } .chart-y-axis { left:12px; top:16px; } }
+
+  /* Magazine layout: let the data breathe, use rules instead of boxes */
+  .glass, .glass-strong { background:transparent; border:0; border-radius:0; box-shadow:none; }
+  .stats { gap:0; margin:0 0 22px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .stat-card { padding:15px 12px 14px; }
+  .stat-card + .stat-card { border-left:1px solid var(--line); }
+  .progress-wrap { margin:0 0 28px; padding:14px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .chart-container { padding:20px 0 13px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .chart-y-axis { left:0; top:20px; background:var(--warm); box-shadow:6px 0 10px var(--warm); }
+  .section-title { padding-top:2px; }
+  .weekly { border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .week-card { padding:15px 12px; }
+  .week-card + .week-card { border-left:1px solid var(--line); }
+  .table-wrap { border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .injection td { background:#fcfaf3; }
+  .modal-box { background:var(--paper); border:1px solid var(--line); border-radius:14px; box-shadow:0 20px 60px rgba(30,43,34,.16); }
+  @media (max-width: 520px) { .stat-card { padding:13px 5px 11px; } .week-card { padding:13px 7px; } .chart-container { padding-top:16px; } .chart-y-axis { left:0; top:16px; } }
+  @media (max-width: 520px) { body { padding:24px 14px 36px; } h1 { margin:6px 2px 24px; } .stat-card .value { font-size:1.25rem; } .chart-container { padding-right:0; padding-left:0; } }
 
 </style>
 </head>
@@ -459,11 +476,11 @@ const weightChart = new Chart(chartCanvas, {
       {
         label: '体重 (kg)', data: chartData,
         borderColor: '#4a7c59', backgroundColor: gFill, fill: true, tension: 0.4, borderWidth: 2.5,
-        pointBackgroundColor: withWeight.map(d => d.note && d.note.includes('💉') ? '#e74c3c' : '#fff'),
-        pointBorderColor: withWeight.map(d => d.note && d.note.includes('💉') ? '#e74c3c' : '#4a7c59'),
-        pointBorderWidth: 2,
-        pointRadius: withWeight.map(d => d.note && d.note.includes('💉') ? 6 : 3.5),
-        pointHoverRadius: 8,
+        pointBackgroundColor: withWeight.map(d => d.note && d.note.includes('💉') ? '#faf8ef' : '#fff'),
+        pointBorderColor: withWeight.map(d => d.note && d.note.includes('💉') ? '#b8ae81' : '#4a7c59'),
+        pointBorderWidth: withWeight.map(d => d.note && d.note.includes('💉') ? 1.5 : 2),
+        pointRadius: withWeight.map(d => d.note && d.note.includes('💉') ? 4 : 3.5),
+        pointHoverRadius: 6,
       },
       {
         label: '目标 ' + GOAL + 'kg',
